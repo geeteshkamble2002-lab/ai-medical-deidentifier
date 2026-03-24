@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Medical De-Identifier</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f4f6f8;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .upload-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .box {
+            width: 50%;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+
+        .report {
+            margin-top: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>AI Medical De-Identification System</h1>
+
+    <div class="upload-section">
+        <input type="file" id="fileInput">
+        <button onclick="uploadFile()">Upload</button>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <div class="container">
+        <div class="box">
+            <h3>Original Text</h3>
+            <div id="originalText">Upload a file to see results</div>
+        </div>
+
+        <div class="box">
+            <h3>Redacted Text</h3>
+            <div id="redactedText">Upload a file to see results</div>
+        </div>
+    </div>
+
+    <div class="report">
+        <h3>PHI Report</h3>
+        <pre id="report">{}</pre>
+    </div>
+
+    <script>
+        async function uploadFile() {
+            const fileInput = document.getElementById("fileInput");
+            const file = fileInput.files[0];
+            const status = document.getElementById("status");
+
+            if (!file) {
+                alert("Please select a file");
+                return;
+            }
+
+            status.innerText = "Uploading and processing...";
+
+            const formData = new FormData();
+            formData.append("file", file);
+
+            try {
+                const response = await fetch("http://127.0.0.1:8000/upload", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error("Server error");
+                }
+
+                const data = await response.json();
+
+                console.log("API Response:", data);
+
+                document.getElementById("originalText").innerText =
+                    data.original_text || "No text extracted";
+
+                document.getElementById("redactedText").innerText =
+                    data.redacted_text || "No redacted output";
+
+                document.getElementById("report").innerText =
+                    JSON.stringify(data.report || {}, null, 2);
+
+                status.innerText = "✅ Processing complete";
+
+            } catch (error) {
+                console.error(error);
+                status.innerText = "❌ Error occurred";
+                alert("Error: " + error.message);
+            }
+        }
+    </script>
+
+</body>
+
+</html>

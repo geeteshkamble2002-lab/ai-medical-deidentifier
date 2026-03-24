@@ -1,0 +1,85 @@
+# ===========================
+# Python
+# ===========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+*.whl
+
+# ===========================
+# Virtual Environment
+# ===========================
+venv/
+.venv/
+env/
+ENV/
+
+# ===========================
+# Environment Variables
+# ===========================
+.env
+.env.local
+.env.production
+
+# ===========================
+# IDE / Editor
+# ===========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# ===========================
+# OS Files
+# ===========================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# ===========================
+# Temp & Upload Directories
+# ===========================
+temp/
+backend/temp/
+
+# ===========================
+# Tesseract / OCR Artifacts
+# ===========================
+*.tiff
+*.tif
+
+# ===========================
+# Docker
+# ===========================
+.dockerignore
+
+# ===========================
+# Logs
+# ===========================
+*.log
+logs/
+
+# ===========================
+# Testing
+# ===========================
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ===========================
+# Misc
+# ===========================
+*.bak
+*.tmp
+*.orig
